@@ -2,9 +2,10 @@
 
 namespace Modules\User\Entities;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Region extends Model
+class UserRegion extends Model
 {
     protected $table = 'travel_location';
     protected $fillable = [

@@ -21,7 +21,7 @@ $router->group(['prefix' => 'auth'], function (Router $router) {
     $router->post('reset/{id}/{code}', ['as' => 'reset.complete.post', 'uses' => 'AuthController@postResetComplete']);
     # Logout
     $router->get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
-<<<<<<< HEAD
+
 
 });
 
@@ -37,6 +37,4 @@ $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/getAllProvinces/{countryId}', ['as' => 'getAllProvinces', 'uses' => 'RegionController@getAllProvinces']);
     $router->get('/getAllCities/{provinceId}', ['as' => 'getAllCities', 'uses' => 'RegionController@getAllCities']);
 });
-=======
-});
->>>>>>> bed65beb42c9e8a627c341a01f28c980af9a560a
+

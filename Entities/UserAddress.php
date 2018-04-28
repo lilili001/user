@@ -2,9 +2,10 @@
 
 namespace Modules\User\Entities;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class UserAddress extends Model
 {
     protected $table = 'customer_address';
     protected $fillable = [

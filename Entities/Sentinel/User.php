@@ -7,11 +7,10 @@ use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Laracasts\Presenter\PresentableTrait;
-use Modules\Product\Entities\Address;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
-
+use Modules\User\Entities\UserAddress;
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
     use PresentableTrait, Authenticatable;
@@ -147,6 +146,6 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
     public function addresses()
     {
-        return $this->hasMany(Address::class,'user_id','id');
+        return $this->hasMany(UserAddress::class,'user_id','id');
     }
 }

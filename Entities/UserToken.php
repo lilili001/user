@@ -4,7 +4,6 @@ namespace Modules\User\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\Sentinel\User;
-
 class UserToken extends Model
 {
     protected $table = 'user_tokens';
