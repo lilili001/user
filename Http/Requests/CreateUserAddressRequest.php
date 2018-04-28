@@ -8,7 +8,14 @@ class CreateUserAddressRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'email' => 'required',
+            'telephone' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'street' => 'required'
+        ];
     }
 
     public function translationRules()

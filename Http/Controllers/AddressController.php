@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Modules\Core\Http\Controllers\BasePublicController;
 
 use Illuminate\Http\Request;
-use Modules\User\Entities\Address;
-use Modules\User\Http\Requests\AddressRequest;
+use Modules\User\Entities\UserAddress;
+use Modules\User\Http\Requests\CreateUserAddressRequest;
 use Modules\User\Http\Requests\LoginRequest;
 use AjaxResponse;
 
@@ -20,7 +20,7 @@ class AddressController extends BasePublicController
      */
     public function index()
     {
-        $data = Address::all()->toArray();
+        $data = UserAddress::all()->toArray();
         return view('usercenter.address', compact('data'));
     }
 
@@ -47,13 +47,13 @@ class AddressController extends BasePublicController
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AddressRequest $request)
+    public function store(CreateUserAddressRequest $request)
     {
         DB::beginTransaction();
         try {
             $this->checkIfDefault(request('is_default'));
             $data = $request->all();
-            Address::create(array_merge($data,['user_id'=>user()->id]));
+            UserAddress::create(array_merge($data,['user_id'=>user()->id]));
             DB::commit();
 
             // all good
@@ -90,8 +90,7 @@ function show($id)
 public
 function edit($id)
 {
-
-    return Address::where('address_id', $id)->get()->toArray();
+    return UserAddress::where('address_id', $id)->get()->toArray();
 }
 
 /**
@@ -102,12 +101,12 @@ function edit($id)
  * @return \Illuminate\Http\Response
  */
 public
-function update(AddressRequest $request, $id)
+function update(CreateUserAddressRequest $request, $id)
 {
     DB::beginTransaction();
     try {
         $this->checkIfDefault(request('is_default'));
-         Address::where([
+         UserAddress::where([
             'address_id' => $id,
             'user_id' => user()->id
         ])->update($request->all);
@@ -129,7 +128,7 @@ function update(AddressRequest $request, $id)
 public
 function destroy($id)
 {
-    $bool = Address::where('address_id', $id)->delete();
+    $bool = UserAddress::where('address_id', $id)->delete();
     return $bool ? AjaxResponse::success() : AjaxResponse::fail();
 }
 }

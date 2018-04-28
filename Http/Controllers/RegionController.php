@@ -6,21 +6,20 @@ use AjaxResponse;
 use Modules\Core\Http\Controllers\BasePublicController;
 
 use Illuminate\Http\Request;
-use Modules\User\Entities\Region;
-
+use Modules\User\Entities\UserRegion;
 
 class RegionController extends BasePublicController
 {
     //获取所有的国家
     public function getAllCountries()
     {
-        $countries = Region::where('level',2)->get();
+        $countries = UserRegion::where('level',2)->get();
         return AjaxResponse::success('',$countries);
     }
     //根据国家获取州县列表
     public function getAllProvinces($countryId)
     {
-        $provinces = Region::where([
+        $provinces = UserRegion::where([
             'level' => 3,
             'pid' => $countryId
         ])->get();
@@ -30,7 +29,7 @@ class RegionController extends BasePublicController
     //根据州县获取城市列表
     public function getAllCities($provinceId)
     {
-        $cities = Region::where([
+        $cities = UserRegion::where([
             'level' => 4,
             'pid' => $provinceId
         ])->get();
