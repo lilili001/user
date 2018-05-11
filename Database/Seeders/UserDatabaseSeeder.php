@@ -15,6 +15,11 @@ class UserDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+<<<<<<< HEAD
         //$this->call(SentinelGroupSeedTableSeeder::class);
+=======
+
+        $this->call(SentinelGroupSeedTableSeeder::class);
+>>>>>>> a981f784849191c6c07d68abf994110992498ea7
     }
 }
