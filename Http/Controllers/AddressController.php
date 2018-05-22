@@ -37,7 +37,7 @@ class AddressController extends BasePublicController
     public function checkIfDefault($isDefault)
     {
         if ($isDefault) {
-            $notices = DB::update(DB::raw("UPDATE customer_address SET is_default = 0"));
+            $notices = DB::update(DB::raw("UPDATE user__useraddresses SET is_default = 0"));
         }
     }
 
@@ -53,82 +53,96 @@ class AddressController extends BasePublicController
         try {
             $this->checkIfDefault(request('is_default'));
             $data = $request->all();
-            UserAddress::create(array_merge($data,['user_id'=>user()->id]));
+            UserAddress::create(array_merge($data, ['user_id' => user()->id]));
             DB::commit();
-
-            // all good
-            if ($request->ajax()) {
-                return AjaxResponse::success('');
-            } else {
-                return redirect()->back();
-            }
 
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
-}
 
-/**
- * Display the specified resource.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function show($id)
-{
-    //
-}
-
-/**
- * Show the form for editing the specified resource.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function edit($id)
-{
-    return UserAddress::where('id', $id)->get()->toArray();
-}
-
-/**
- * Update the specified resource in storage.
- *
- * @param  \Illuminate\Http\Request $request
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function update(CreateUserAddressRequest $request, $id)
-{
-    DB::beginTransaction();
-    try {
-        $this->checkIfDefault(request('is_default'));
-         UserAddress::where([
-            'address_id' => $id,
-            'user_id' => user()->id
-        ])->update($request->all);
-        DB::commit();
         // all good
-        return AjaxResponse::success();
-    } catch (\Exception $e) {
-        DB::rollback();
-        throw $e;
+        if ($request->ajax()) {
+            return AjaxResponse::success('',UserAddress::all()->toArray() );
+        } else {
+            return redirect()->back();
+        }
     }
-}
 
-/**
- * Remove the specified resource from storage.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function destroy($id)
-{
-    $bool = UserAddress::where('address_id', $id)->delete();
-    return $bool ? AjaxResponse::success() : AjaxResponse::fail();
-}
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return UserAddress::where('id', $id)->get()->toArray();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(CreateUserAddressRequest $request, $id)
+    {
+        $data = $request->all();
+        unset($data['_method']);
+        unset($data['_token']);
+
+        DB::beginTransaction();
+        try {
+            $this->checkIfDefault($data['is_default']);
+            UserAddress::where([
+                'id' => $id,
+                'user_id' => user()->id
+            ])->update($data);
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
+        // all good
+        if ($request->ajax()) {
+            return AjaxResponse::success();
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $bool = UserAddress::where('id', $id)->delete();
+        return $bool ? AjaxResponse::success() : AjaxResponse::fail();
+    }
+
+    public function setDefault( $id )
+    {
+        DB::update(DB::raw("UPDATE user__useraddresses SET is_default = 0"));
+        $bool = UserAddress::where('id', $id)->update([
+            'is_default' => 1
+        ]);
+        return $bool ? AjaxResponse::success() : AjaxResponse::fail();
+    }
 }

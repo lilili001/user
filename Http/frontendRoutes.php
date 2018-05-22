@@ -27,6 +27,8 @@ $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/usercenter', ['as' => 'usercenter', 'uses' => 'PublicController@usercenter']);
     $router->get('/account', ['as' => 'account', 'uses' => 'PublicController@account']);
     $router->resource('/address','AddressController');
+    $router->post('/address/{address}/setDefault',['as'=>'address.setDefault','uses'=>'AddressController@setDefault']);
+
     $router->get('/order', ['as' => 'orders', 'uses' => 'PublicController@order']);
     $router->get('/reviews', ['as' => 'reviews', 'uses' => 'PublicController@reviews']);
     $router->get('/favorites', ['as' => 'favorites', 'uses' => 'PublicController@favorites']);
