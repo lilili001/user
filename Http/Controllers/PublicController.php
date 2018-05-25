@@ -8,7 +8,8 @@ class PublicController extends BasePublicController
 {
     public function usercenter()
     {
-        return view('usercenter.dash');
+        $pageClass = 'usercenter';
+        return view('usercenter.dash',compact('pageClass'));
     }
     public function account()
     {
