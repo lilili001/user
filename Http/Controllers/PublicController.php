@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use Modules\Core\Http\Controllers\BasePublicController;
+use Modules\Product\Entities\Product;
 
 class PublicController extends BasePublicController
 {
@@ -21,10 +22,14 @@ class PublicController extends BasePublicController
     }
     public function reviews()
     {
-        return view('usercenter.reviews');
+        $pageClass = 'reviews';
+        $reviews = user()->reviews()->get();
+        return view('usercenter.reviews',compact('reviews','pageClass'));
     }
     public function favorites()
     {
-        return view('usercenter.favorites');
+        $pageClass = 'favorites';
+        $favorites = user()->favorites(Product::class)->get();
+        return view('usercenter.favorites',compact('favorites','pageClass'));
     }
 }

@@ -20,7 +20,7 @@ class AddressController extends BasePublicController
      */
     public function index()
     {
-        $data = UserAddress::all()->toArray();
+        $data = UserAddress::where('user_id',user()->id)->get()->toArray();
         return view('usercenter.address', compact('data'));
     }
 

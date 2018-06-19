@@ -7,6 +7,7 @@ use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Laracasts\Presenter\PresentableTrait;
+use Modules\Sale\Entities\OrderReview;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
@@ -19,8 +20,7 @@ use Overtrue\LaravelFollow\Traits\CanVote;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-    use PresentableTrait, Authenticatable;
-    use CanFavorite,CanVote,CanSubscribe,CanLike,CanFollow
+    use PresentableTrait, Authenticatable,CanFavorite,CanVote,CanSubscribe,CanLike,CanFollow;
 
     protected $fillable = [
         'email',
@@ -155,4 +155,10 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     {
         return $this->hasMany(UserAddress::class,'user_id','id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(OrderReview::class,'user_id','id');
+    }
+    
 }
