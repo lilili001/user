@@ -11,9 +11,16 @@ use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
 use Modules\User\Entities\UserAddress;
+use Overtrue\LaravelFollow\Traits\CanFavorite;
+use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanLike;
+use Overtrue\LaravelFollow\Traits\CanSubscribe;
+use Overtrue\LaravelFollow\Traits\CanVote;
+
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
     use PresentableTrait, Authenticatable;
+    use CanFavorite,CanVote,CanSubscribe,CanLike,CanFollow
 
     protected $fillable = [
         'email',
