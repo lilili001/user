@@ -6,6 +6,7 @@ use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Sale\Entities\OrderReview;
 use Modules\User\Entities\UserInterface;
@@ -20,7 +21,7 @@ use Overtrue\LaravelFollow\Traits\CanVote;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-    use PresentableTrait, Authenticatable,CanFavorite,CanVote,CanSubscribe,CanLike,CanFollow;
+    use Notifiable, PresentableTrait, Authenticatable,CanFavorite,CanVote,CanSubscribe,CanLike,CanFollow;
 
     protected $fillable = [
         'email',

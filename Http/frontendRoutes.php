@@ -32,6 +32,10 @@ $router->group(['middleware' => 'logged.in'],function(Router $router){
     //$router->get('/order', ['as' => 'orders', 'uses' => 'PublicController@order']);
     $router->get('/reviews', ['as' => 'reviews', 'uses' => 'PublicController@reviews']);
     $router->get('/favorites', ['as' => 'favorites', 'uses' => 'PublicController@favorites']);
+    $router->get('/notifications', ['as' => 'notifications', 'uses' => 'PublicController@notifications']);
+    $router->get('/notifications/{notification}', ['as' => 'notification', 'uses' => 'PublicController@notification']);
+
+    Route::get('/inbox/{dialogId}','InboxController@show');
 
     $router->get('/getAllCountries', ['as' => 'getAllCountries', 'uses' => 'RegionController@getAllCountries']);
     $router->get('/getAllProvinces/{countryId}', ['as' => 'getAllProvinces', 'uses' => 'RegionController@getAllProvinces']);
