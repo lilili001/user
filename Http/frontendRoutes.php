@@ -26,6 +26,8 @@ $router->group(['prefix' => 'auth'], function (Router $router) {
 $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/usercenter', ['as' => 'usercenter', 'uses' => 'PublicController@usercenter']);
     $router->get('/account', ['as' => 'account', 'uses' => 'PublicController@account']);
+    $router->post('/reset_password',['as' => 'user.front.resetpassword', 'uses' => 'ResetPasswordController@updatePassword' ]);
+
     $router->resource('/address','AddressController');
     $router->post('/address/{address}/setDefault',['as'=>'address.setDefault','uses'=>'AddressController@setDefault']);
 
@@ -35,7 +37,7 @@ $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/notifications', ['as' => 'notifications', 'uses' => 'PublicController@notifications']);
     $router->get('/notifications/{notification}', ['as' => 'notification', 'uses' => 'PublicController@notification']);
 
-    Route::get('/inbox/{dialogId}','InboxController@show');
+    $router->get('/inbox/{dialogId}','InboxController@show');
 
     $router->get('/getAllCountries', ['as' => 'getAllCountries', 'uses' => 'RegionController@getAllCountries']);
     $router->get('/getAllProvinces/{countryId}', ['as' => 'getAllProvinces', 'uses' => 'RegionController@getAllProvinces']);
