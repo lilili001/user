@@ -54,11 +54,22 @@ class SentinelUserRepository implements UserRepository
         $this->hashPassword($data);
 
         event($event = new UserIsCreating($data));
-        $user = $this->user->create($event->getAttributes());
+
+        $attrs = $event->getAttributes();
+
+        //如果有email, account_id 字段则是email 则是普通登陆
+        if( isset( $attrs['email'] ) ){
+            $account_id = $attrs['email'];
+            $attrs = array_merge( $attrs , ['account_id' => $account_id ] );
+        }
+
+        $user = $this->user->create( $attrs  );
 
         if ($activated) {
             $this->activateUser($user);
-            event(new UserWasCreated($user));
+            if( isset( $user->email ) ){
+                event(new UserWasCreated($user));
+            }
         } else {
             event(new UserHasRegistered($user));
         }

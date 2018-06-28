@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Sale\Entities\OrderReview;
 use Modules\User\Entities\UserInterface;
+use Modules\User\Entities\UserOauth;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
 use Modules\User\Entities\UserAddress;
@@ -28,7 +29,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
         'password',
         'permissions',
         'first_name',
-        'last_name',
+        'last_name'
     ];
 
     /**
@@ -161,5 +162,9 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     {
         return $this->hasMany(OrderReview::class,'user_id','id');
     }
-    
+
+    public function userOauth()
+    {
+        return $this->hasMany(UserOauth::class,'user_id','id');
+    }
 }

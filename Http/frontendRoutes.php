@@ -23,6 +23,9 @@ $router->group(['prefix' => 'auth'], function (Router $router) {
     $router->get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
 });
 
+Route::get('/oauth/{type}', 'OauthController@redirectToProvider');
+Route::get('/oauth/cb/{type}', 'OauthController@handleProviderCallback');
+
 $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/usercenter', ['as' => 'usercenter', 'uses' => 'PublicController@usercenter']);
     $router->get('/account', ['as' => 'account', 'uses' => 'PublicController@account']);

@@ -98,6 +98,11 @@ class MigrationCartalystSentinel extends Migration
             $table->timestamp('last_login')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+
+            $table->string('nickname')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('login_type')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
 
             $table->engine = 'InnoDB';
