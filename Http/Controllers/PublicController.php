@@ -4,8 +4,13 @@ namespace Modules\User\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Product\Entities\Product;
+use Modules\User\Entities\NewsLetter;
+use Modules\User\Http\Requests\NewsletterRequest;
 
 /**
  * Class PublicController
@@ -83,5 +88,30 @@ class PublicController extends BasePublicController
             return redirect(\Request::query('redirect_url'));
         }
         return redirect()->back();
+    }
+
+    public function newsletter(Request $request,MessageBag $errors)
+    {
+        $input = $request->all();
+        $rule = [
+            'email' => 'email|unique:newsletter,email'
+        ];
+        $message = [
+            'email.email' => 'Email format is not correct!',
+            'email.unique' => 'Email address already exsists'
+        ];
+
+        $validate = Validator::make($input, $rule, $message);
+
+        if (!$validate->passes()) {
+            return redirect()->route('newsletter.detail')->withErrors($validate);
+        }
+        NewsLetter::create(['email'=>$request->get('email')]);
+        return redirect()->route('newsletter.detail');
+    }
+
+    public function newsletter_detail()
+    {
+        return view('usercenter.newsletter');
     }
 }

@@ -47,3 +47,5 @@ $router->group(['middleware' => 'logged.in'],function(Router $router){
     $router->get('/getAllCities/{provinceId}', ['as' => 'getAllCities', 'uses' => 'RegionController@getAllCities']);
 });
 
+Route::post('/customer/newsletter', ['as' => 'newsletter.submit' , 'uses' => 'PublicController@newsletter' ]  );
+Route::get('/customer/newsletter_detail', ['as' => 'newsletter.detail' , 'uses' => 'PublicController@newsletter_detail' ]  );
